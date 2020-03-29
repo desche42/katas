@@ -32,10 +32,8 @@ With this graph we can clearly see that the most voted solution is the most effi
 
 There are two groups of solutions:
 
-- _bp1_ and _my solution_
-  - <img src="https://render.githubusercontent.com/render/math?math=\qquad\overline{X} \in [5 - 17]\mu s">
-- _bp2_ and _bp3 solution_ 
-  - <img src="https://render.githubusercontent.com/render/math?math=\qquad\overline{X} \in [7.2 - 7.6] ms">
+- _bp1_ and _my solution_ <img src="https://render.githubusercontent.com/render/math?math=\qquad\overline{X} \in [5 - 17]\mu s">
+- _bp2_ and _bp3 solution_ <img src="https://render.githubusercontent.com/render/math?math=\qquad\overline{X} \in [7.2 - 7.6] ms">
 
 Solutions in each group offer similar time - averages.
 
