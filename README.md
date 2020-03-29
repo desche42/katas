@@ -1,6 +1,6 @@
 # Find next bigger kata code performance
 
-After playing in codewars with [find-next-bigger](https://www.codewars.com/kata/55983863da40caa2c900004e/solutions/javascript) kata, I wanted to measure the efficiency of my solution and the most voted ones.
+After playing in codewars with [find-next-bigger](https://www.codewars.com/kata/55983863da40caa2c900004e/javascript) kata, I wanted to measure the efficiency of my solution and the most voted ones.
 
 In this repo there are files with the 3 most voted solutions (copy pasted) and my personal solution.
 
