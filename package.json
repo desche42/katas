@@ -1,0 +1,24 @@
+{
+  "name": "find-next-bigger-efficiency",
+  "version": "1.0.0",
+  "description": "After playing in codewars with [find-next-bigger](https://www.codewars.com/kata/55983863da40caa2c900004e/solutions/javascript) kata, I wanted to test my solution against the most voted ones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desche42/find-next-bigger-efficiency.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/desche42/find-next-bigger-efficiency/issues"
+  },
+  "homepage": "https://github.com/desche42/find-next-bigger-efficiency#readme",
+  "dependencies": {
+    "csv-parser": "^2.3.2",
+    "objects-to-csv": "^1.3.6"
+  }
+}

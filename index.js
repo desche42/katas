@@ -14,7 +14,6 @@
  * 531 ==> -1
  */
 const {performance } = require('perf_hooks');
-
 /**
  * I want to test how much time does it take for every solution,
  * testing random numbers and measuring for time to solve the problem
@@ -25,29 +24,74 @@ const bp1 = require('./src/bestPractices-1');
 const bp2 = require('./src/bestPractices-2');
 const bp3 = require('./src/bestPractices-3');
 
-const N_TESTS = 1000;
+// parse local data
+const csv = require('csv-parser');
+const ObjectsToCsv = require('objects-to-csv');
+const fs = require('fs')
+const RESULTS = [];
+
+fs.createReadStream('result.csv')
+  .pipe(csv())
+  .on('data', (data) => RESULTS.push(data))
+  .on('end', () => {
+    begin()
+});
+
+
+const N_TESTS = 500;
 const MAX_NUMBER = 1000000000000000;
-
-const fs = require('fs');
-
 const randomNumber = () => Math.floor(Math.random() * MAX_NUMBER);
-const result = new Array(N_TESTS).fill(0).map(randomNumber).reduce((acc, n, i) => {
-    console.log(`Iteration ${i}, number ${n}`);
-    const myTime = testSolution(n, mySolution);
-    const bp1time = testSolution(n, bp1);
-    const bp2time = testSolution(n, bp2);
-    const bp3time = testSolution(n, bp3);
-    acc[n] = {
-        myTime, bp1time, bp2time, bp3time
+
+async function begin() {
+    const alreadyTested = RESULTS.map(result => Number(result.number));
+    const numbersToTest = getNumbersToTest(alreadyTested);
+    await testNumbers(numbersToTest)
+    await writeCSV();
+}
+
+function getNumbersToTest(exclude) {
+    const numbers = [];
+    while(numbers.length < N_TESTS) {
+        let n = randomNumber();
+        if (!(exclude.includes(n) || numbers.includes(n))) {
+            numbers.push(n)
+        }
     }
-    return acc;
-}, {});
+    return numbers;
+}
 
-fs.writeFileSync('./result.json', JSON.stringify(result, null, 2));
+async function testNumbers(numbers) {
+    return numbers.reduce(async (acc, n, i) => {
+        acc = await acc;
+        console.log(`Iteration ${i + 1}, number ${n}`);
+        const myResult = await testSolution(n, mySolution);
+        const bp1Result = await testSolution(n, bp1);
+        const bp2Result = await testSolution(n, bp2);
+        const bp3Result = await testSolution(n, bp3);
+        let result = {
+            number: n,
+            solution: myResult.solution,
+            myTime: myResult.time,
+            bp1time: bp1Result.time,
+            bp2time: bp2Result.time,
+            bp3time: bp3Result.time
+        };
+        await writeCSV([result], true);
+        RESULTS.push(result);
+        return acc;
+    }, []);
+}
 
-function testSolution(n, fn) {
+async function writeCSV(newResults = []) {
+    let results = newResults.length ? newResults : RESULTS.concat(newResults).sort((a, b) => a.number - b.number);
+    const csv = new ObjectsToCsv(results);
+    await csv.toDisk('./result.csv', {append: !!newResults.length});
+}
+
+
+async function testSolution(n, fn) {
     const start = performance.now();
-    fn(n);
+    const solution = fn(n);
     const end = performance.now();
-    return end - start
+    return {time: Number((end - start).toFixed(4)), solution};
 }
